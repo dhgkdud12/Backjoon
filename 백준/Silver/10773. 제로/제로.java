@@ -1,28 +1,68 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        ArrayList<Integer> arrayList = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int n = Integer.parseInt(br.readLine());
+        StackImp stack = new StackImp(n);
+        int sum = 0;
+
         for (int i=0; i<n; i++) {
-            int a = sc.nextInt();
-            if (a == 0) {
-                arrayList.remove(arrayList.size()-1);
-            } else {
-                arrayList.add(a);
+            int c = Integer.parseInt(br.readLine());
+
+            if (c>0) {
+                stack.push(c);
+                sum += c;
             }
-        }
-        Integer sum = 0;
-        for (Integer a : arrayList) {
-             sum += a;
+
+            else if (c==0) {
+                sum -= stack.pop();
+            }
         }
 
         System.out.println(sum);
 
+    }
+
+    public static class StackImp {
+        static int[] arr;
+        static boolean empty;
+        static int top;
+
+        public StackImp(int size) {
+            this.arr = new int[size];
+            this.empty = true;
+            this.top = 0;
+        }
+
+        public static void push(int i) {
+            arr[top] = i;
+            top ++;
+            empty = false;
+        }
+
+        public static int pop() {
+            if (empty) return -1;
+
+            top--;
+            int i = arr[top];
+            if (top==0) empty = true;
+
+            return i;
+        }
+
+        public static int empty() {
+            if (empty) return 1;
+            return 0;
+        }
+
+        public static int top() {
+            if (empty) return -1;
+
+            return arr[top-1];
+        }
     }
 }
